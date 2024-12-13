@@ -1,6 +1,7 @@
 package com.apacate.evento.entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,49 +9,45 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name = "atividade")
 public class Atividade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String nome;
     private String descricao;
     private Double preco;
-
-
-    @OneToMany(mappedBy = "atividade")
-    private List<Bloco> blocos = new ArrayList<>();
-
-    @ManyToMany
-    @JoinTable(name = "atividade_participante",
-            joinColumns = @JoinColumn(name = "atividade_id"),
-            inverseJoinColumns = @JoinColumn(name = "participante_id"))
-    private Set<Participante> participantes = new HashSet<>();
-
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
+    @OneToMany(mappedBy = "atividade", cascade = CascadeType.ALL)
+    private List<BlocoHorario> blocos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "atividade", cascade = CascadeType.ALL)
+    private List<AtividadeParticipante> atividadeParticipante = new ArrayList<>();
+
+
     public Atividade() {
     }
 
-    public Atividade(Integer id, String nome, String descricao, Double preco, List<Bloco> blocos, Set<Participante> participantes, Categoria categoria) {
+    public Atividade(Long id, String nome, String descricao, Double preco, Categoria categoria, List<BlocoHorario> blocos, List<AtividadeParticipante> atividadeParticipante) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
-        this.blocos = blocos;
-        this.participantes = participantes;
         this.categoria = categoria;
-
+        this.blocos = blocos;
+        this.atividadeParticipante = atividadeParticipante;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -78,27 +75,27 @@ public class Atividade {
         this.preco = preco;
     }
 
-    public List<Bloco> getBlocos() {
-        return blocos;
-    }
-
-    public void setBlocos(List<Bloco> blocos) {
-        this.blocos = blocos;
-    }
-
-    public Set<Participante> getParticipantes() {
-        return participantes;
-    }
-
-    public void setParticipantes(Set<Participante> participantes) {
-        this.participantes = participantes;
-    }
-
     public Categoria getCategoria() {
         return categoria;
     }
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public List<BlocoHorario> getBlocos() {
+        return blocos;
+    }
+
+    public void setBlocos(List<BlocoHorario> blocos) {
+        this.blocos = blocos;
+    }
+
+    public List<AtividadeParticipante> getAtividadeParticipante() {
+        return atividadeParticipante;
+    }
+
+    public void setAtividadeParticipante(List<AtividadeParticipante> atividadeParticipante) {
+        this.atividadeParticipante = atividadeParticipante;
     }
 }

@@ -2,37 +2,40 @@ package com.apacate.evento.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name = "participante")
 public class Participante {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String nome;
     private String email;
 
-    @ManyToMany(mappedBy = "participantes")
-    private Set<Atividade> atividades= new HashSet<>();
+    @OneToMany(mappedBy = "participante", cascade = CascadeType.ALL)
+    private List<AtividadeParticipante> atividadeParticipante = new ArrayList<>();
 
     public Participante() {
     }
 
-    public Participante(Integer id, String nome, String email, Set<Atividade> atividades) {
+    public Participante(Long id, String nome, String email, List<AtividadeParticipante> atividadeParticipante) {
         this.id = id;
         this.nome = nome;
         this.email = email;
-        this.atividades = atividades;
+        this.atividadeParticipante = atividadeParticipante;
     }
 
-    public Integer getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,11 +55,11 @@ public class Participante {
         this.email = email;
     }
 
-    public Set<Atividade> getAtividades() {
-        return atividades;
+    public List<AtividadeParticipante> getAtividadeParticipante() {
+        return atividadeParticipante;
     }
 
-    public void setAtividades(Set<Atividade> atividades) {
-        this.atividades = atividades;
+    public void setAtividadeParticipante(List<AtividadeParticipante> atividadeParticipante) {
+        this.atividadeParticipante = atividadeParticipante;
     }
 }

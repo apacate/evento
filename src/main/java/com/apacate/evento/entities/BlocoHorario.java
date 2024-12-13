@@ -1,37 +1,38 @@
 package com.apacate.evento.entities;
 
 import jakarta.persistence.*;
-
 import java.time.Instant;
 
 @Entity
-public class Bloco {
+@Table(name = "bloco_horario")
+public class BlocoHorario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
+
     private Instant inicio;
     private Instant fim;
 
     @ManyToOne
-    @JoinColumn(name = "atividade_id")
+    @JoinColumn(name = "atividade_id", nullable = false)
     private Atividade atividade;
 
-    public Bloco() {
+    public BlocoHorario() {
     }
 
-    public Bloco(Integer id, Instant inicio, Instant fim, Atividade atividade) {
+    public BlocoHorario(Long id, Instant inicio, Instant fim, Atividade atividade) {
         this.id = id;
         this.inicio = inicio;
         this.fim = fim;
         this.atividade = atividade;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
